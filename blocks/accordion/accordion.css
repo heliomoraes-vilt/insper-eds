@@ -1,0 +1,111 @@
+/*
+ * Porte de Accordion.style.tsx, mais o que vinha da tipografia global do portal
+ * para o h2 (18px/28px, bold, margem zerada) e o reset de <p> (margem zero).
+ * Mobile first: o único corte do original é o overflow do conteúdo sem título.
+ */
+
+.accordion {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* AccordionTitle + Heading: cor black1, ou vermelho com alternativeTitleColor. */
+.accordion .accordion-title {
+  margin: 30px 0 20px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 28px;
+  color: var(--text-color, #1d1d1b);
+}
+
+.accordion .accordion-title.accordion-title-red {
+  color: #e50505;
+}
+
+.accordion .accordion-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* AccordionButton, agora um <summary>. */
+.accordion .accordion-button {
+  min-height: 48px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--background-color, #fff);
+  border-bottom: 1px solid #f2f2f2;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-color, #000);
+  text-align: left;
+  cursor: pointer;
+  list-style: none;
+}
+
+.accordion .accordion-button::-webkit-details-marker {
+  display: none;
+}
+
+.accordion details[open] > .accordion-button {
+  color: #c7321f;
+}
+
+.accordion .accordion-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.accordion .accordion-icon svg {
+  flex-shrink: 0;
+}
+
+.accordion .accordion-icon-minus,
+.accordion details[open] .accordion-icon-plus {
+  display: none;
+}
+
+.accordion details[open] .accordion-icon-minus {
+  display: block;
+}
+
+/* AccordionItem: as duas classes de conteúdo do original recebem o mesmo texto. */
+.accordion .accordion-content {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 25px 0;
+  font-size: 1.125rem;
+  line-height: 1.625;
+  color: var(--text-color, #000);
+}
+
+.accordion .accordion-content p {
+  margin: 0;
+}
+
+.accordion .accordion-content a {
+  font-weight: 400;
+  font-size: 1.125rem;
+  line-height: 1.625;
+  color: #e50505;
+  text-decoration: underline dashed 1px #e50505;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+/* wrapper__content: rolagem horizontal até o desktop (tabelas largas). */
+.accordion .accordion-content-plain {
+  overflow-x: auto;
+}
+
+@media (width >= 1200px) {
+  .accordion .accordion-content-plain {
+    overflow-x: hidden;
+  }
+}

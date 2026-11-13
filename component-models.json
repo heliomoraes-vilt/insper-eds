@@ -142,6 +142,49 @@
     ]
   },
   {
+    "id": "accordion",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "label": "Título do accordion",
+        "description": "Opcional. Com título, o conteúdo dos itens usa o estilo de texto rico; sem título, ganha rolagem horizontal até o desktop"
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "alternativeTitleColor",
+        "label": "Título em vermelho"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "id",
+        "label": "Id do accordion",
+        "description": "Âncora opcional, sem espaços"
+      }
+    ]
+  },
+  {
+    "id": "accordion-item",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "label": "Título"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "body",
+        "label": "Texto",
+        "value": ""
+      }
+    ]
+  },
+  {
     "id": "card",
     "fields": [
       {

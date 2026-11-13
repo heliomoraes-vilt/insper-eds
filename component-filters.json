@@ -21,7 +21,14 @@
       "network-insights",
       "world-map",
       "share",
-      "instagram-timeline"
+      "instagram-timeline",
+      "accordion"
+    ]
+  },
+  {
+    "id": "accordion",
+    "components": [
+      "accordion-item"
     ]
   },
   {
