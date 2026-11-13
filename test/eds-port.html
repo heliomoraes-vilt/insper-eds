@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blocos portados do portal — preview local</title>
+  <meta name="nav" content="/test/nav">
+  <meta name="footer" content="/test/footer">
+  <script src="/scripts/aem.js" type="module"></script>
+  <script src="/scripts/scripts.js" type="module"></script>
+  <link rel="stylesheet" href="/styles/styles.css">
+</head>
+
+<body>
+  <header></header>
+  <main>
+    <div>
+      <h2>Compartilhar</h2>
+      <p>Corpo de uma notícia. No portal, o componente fica logo abaixo do texto nos templates de notícia.</p>
+      <!-- share: text | tooltip | id -->
+      <div class="share">
+        <div>
+          <div>Confira mais em:</div>
+          <div>Link copiado com sucesso.</div>
+          <div>compartilhar</div>
+        </div>
+      </div>
+      <p>Só o texto preenchido; tooltip e id ficam vazios e caem no padrão:</p>
+      <div class="share">
+        <div>
+          <div>Leia também no portal do Insper</div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2>Timeline Instagram</h2>
+      <!-- instagram-timeline: source | id. A fixture faz o papel do servlet do AEM. -->
+      <div class="instagram-timeline">
+        <div>
+          <div>/test/fixtures/instagram-timeline</div>
+          <div>instagram</div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer></footer>
+</body>
+
+</html>

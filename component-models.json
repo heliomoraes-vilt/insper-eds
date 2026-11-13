@@ -255,6 +255,26 @@
     ]
   },
   {
+    "id": "instagram-timeline",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "source",
+        "label": "Endpoint dos posts",
+        "description": "Caminho sem idioma nem extensão; o bloco pede <caminho>.pt.json ou <caminho>.en.json",
+        "value": "/bin/insper/instagram-timeline"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "id",
+        "label": "Id do componente",
+        "description": "Âncora opcional, sem espaços"
+      }
+    ]
+  },
+  {
     "id": "network-insights",
     "fields": [
       {
@@ -348,6 +368,33 @@
         "name": "pageSize",
         "label": "Cartões por lote",
         "value": "18"
+      }
+    ]
+  },
+  {
+    "id": "share",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "text",
+        "label": "Texto do compartilhamento",
+        "description": "Vai como título no LinkedIn, texto no X, citação no Facebook e início da mensagem no WhatsApp",
+        "value": "Confira mais em:"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "tooltip",
+        "label": "Texto da tooltip do link",
+        "value": "Link copiado com sucesso."
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "id",
+        "label": "Id do componente",
+        "description": "Âncora opcional, sem espaços"
       }
     ]
   },
