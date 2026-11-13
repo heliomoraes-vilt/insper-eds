@@ -15,7 +15,11 @@
       "hero",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "notice",
+      "partner-catalog",
+      "network-insights",
+      "world-map"
     ]
   },
   {
@@ -37,6 +41,12 @@
       "image",
       "button",
       "title"
+    ]
+  },
+  {
+    "id": "hero",
+    "components": [
+      "hero-cta"
     ]
   }
 ]

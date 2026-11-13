@@ -193,25 +193,192 @@
     "id": "hero",
     "fields": [
       {
-        "component": "reference",
+        "component": "text",
         "valueType": "string",
-        "name": "image",
-        "label": "Image",
-        "multi": false
+        "name": "eyebrow",
+        "label": "Rótulo superior",
+        "description": "Linha curta em maiúsculas acima do título"
       },
       {
         "component": "text",
         "valueType": "string",
-        "name": "imageAlt",
-        "label": "Alt",
+        "name": "title",
+        "label": "Título"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "lead",
+        "label": "Texto de apoio",
         "value": ""
       },
       {
         "component": "richtext",
+        "valueType": "string",
+        "name": "note",
+        "label": "Nota lateral",
+        "description": "Aviso destacado à direita, acima dos botões",
+        "value": ""
+      }
+    ]
+  },
+  {
+    "id": "hero-cta",
+    "fields": [
+      {
+        "component": "aem-content",
+        "name": "link",
+        "label": "Destino"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "label",
+        "label": "Texto do botão"
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "type",
+        "label": "Estilo",
+        "options": [
+          {
+            "name": "Principal",
+            "value": "primary"
+          },
+          {
+            "name": "Secundário",
+            "value": "secondary"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "network-insights",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "source",
+        "label": "Planilha publicada",
+        "value": "/parcerias.json"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "continent",
+        "label": "Painel de regiões — título",
+        "description": "Deixe em branco para omitir o painel"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "category",
+        "label": "Painel de oportunidades — título"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "course",
+        "label": "Painel de cursos — título"
+      }
+    ]
+  },
+  {
+    "id": "notice",
+    "fields": [
+      {
+        "component": "richtext",
+        "valueType": "string",
         "name": "text",
-        "value": "",
-        "label": "Text",
-        "valueType": "string"
+        "label": "Texto",
+        "value": ""
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "variant",
+        "label": "Variante",
+        "options": [
+          {
+            "name": "Padrão",
+            "value": ""
+          },
+          {
+            "name": "Atenção",
+            "value": "warning"
+          },
+          {
+            "name": "Sobre fundo escuro",
+            "value": "inverse"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "partner-catalog",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "source",
+        "label": "Planilha publicada",
+        "description": "Caminho do índice JSON, por exemplo /parcerias.json",
+        "value": "/parcerias.json"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "label": "Título da listagem"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "contact",
+        "label": "Contato do botão de detalhe",
+        "description": "Endereço mailto: usado no rodapé do detalhe",
+        "value": "mailto:studentlife@insper.edu.br"
+      },
+      {
+        "component": "text",
+        "valueType": "number",
+        "name": "pageSize",
+        "label": "Cartões por lote",
+        "value": "18"
+      }
+    ]
+  },
+  {
+    "id": "world-map",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "source",
+        "label": "Planilha publicada",
+        "value": "/parcerias.json"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "geometry",
+        "label": "Geometria do mapa",
+        "description": "Deixe em branco para usar blocks/world-map/world.svg"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "label": "Título"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "subtitle",
+        "label": "Subtítulo"
       }
     ]
   }
