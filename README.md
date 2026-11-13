@@ -37,6 +37,22 @@ Sem estes passos o preview responde 404:
 Os três últimos desenham a si mesmos a partir dos dados: o autor define configuração, não
 conteúdo.
 
+### Portados do portal (AEM SPA → EDS)
+
+Blocos trazidos um a um do portal institucional (React/SPA Editor), com aprovação do dev
+entre cada um:
+
+| Bloco | Origem no portal | Autoria |
+| --- | --- | --- |
+| `share` | `shareComponent` | texto, tooltip, id |
+| `instagram-timeline` | `timelineInstagram` | endpoint dos posts, id |
+
+O `instagram-timeline` não fala com a Meta: o token fica no AEM, e o bloco lê os posts de
+um servlet GET (`<endpoint>.pt.json` / `.en.json`), que ainda precisa ser criado no portal e
+roteado pelo CDN. Sem ele o bloco não aparece, como no original quando faltam posts.
+
+Preview local dos dois: `/test/eds-port.html`, com a fixture em `test/fixtures/`.
+
 ### Duas regras do xwalk que moldaram o código
 
 **Um bloco com `model` vira uma linha com uma célula por campo**, na ordem declarada — não

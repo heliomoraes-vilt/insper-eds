@@ -1,0 +1,96 @@
+/*
+ * Porte de ShareComponent.style.tsx + o que vinha do Tooltip.style.tsx e do
+ * tema padrão do Tippy. O grid do portal não vem junto: aqui a seção já dá a
+ * largura máxima e o padding lateral.
+ */
+
+.share {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ShareList */
+.share .share-list {
+  margin: 0;
+  display: flex;
+  justify-content: flex-start;
+  column-gap: 8px;
+  width: 220px;
+  height: 32px;
+}
+
+/* O ícone era preto fixo; segue a cor do texto para não sumir no tema escuro. */
+.share .share-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-color, #000);
+}
+
+/* Botões: o react-share aplicava este reset inline (resetButtonStyle). */
+.share .share-item button {
+  display: block;
+  height: 32px;
+  width: 32px;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.share .share-item svg {
+  display: block;
+}
+
+/* ClipboardButton */
+.share .share-copy {
+  position: relative;
+}
+
+.share .share-copy button {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #e50505;
+}
+
+.share .share-copy button:hover svg path {
+  stroke: #eaeced;
+}
+
+/*
+ * Balão — substitui o Tippy. Valores: tema padrão do Tippy (#333, seta de 8px)
+ * com os overrides do TooltipWrapper (raio 10px, padding 9/14, fonte 10/17,
+ * nowrap) e o offset [-20, 10] que o Tooltip passa ao Tippy.
+ */
+.share .share-tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: -20px;
+  z-index: 10;
+  padding: 9px 14px;
+  border-radius: 10px;
+  background-color: #333;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 17px;
+  white-space: nowrap;
+}
+
+.share .share-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 27px; /* centro do botão (15px) + o recuo de 20px do offset - meia seta */
+  border: 8px solid transparent;
+  border-top-color: #333;
+  border-bottom: 0;
+}
+
+.share .share-tooltip[hidden] {
+  display: none;
+}

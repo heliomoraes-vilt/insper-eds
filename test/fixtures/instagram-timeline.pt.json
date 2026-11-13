@@ -1,0 +1,36 @@
+{
+  "posts": [
+    {
+      "displayUrl": "/test/fixtures/instagram-timeline/insta-1.svg",
+      "permalink": "https://www.instagram.com/p/FIXTURE1/",
+      "mediaType": "image",
+      "hasMultipleMedia": false,
+      "video": false,
+      "altText": "Alunos no gramado do campus"
+    },
+    {
+      "displayUrl": "/test/fixtures/instagram-timeline/insta-2.svg",
+      "permalink": "https://www.instagram.com/p/FIXTURE2/",
+      "mediaType": "video",
+      "hasMultipleMedia": false,
+      "video": true,
+      "altText": "Vídeo no Instagram"
+    },
+    {
+      "displayUrl": "/test/fixtures/instagram-timeline/insta-3.svg",
+      "permalink": "https://www.instagram.com/p/FIXTURE3/",
+      "mediaType": "carousel",
+      "hasMultipleMedia": true,
+      "video": false,
+      "altText": "Publicação no Instagram com vários itens"
+    },
+    {
+      "displayUrl": "/test/fixtures/instagram-timeline/insta-4.svg",
+      "permalink": "https://www.instagram.com/p/FIXTURE4/",
+      "mediaType": "image",
+      "hasMultipleMedia": false,
+      "video": false,
+      "altText": "Aula magna no auditório"
+    }
+  ]
+}
