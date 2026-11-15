@@ -7,7 +7,8 @@ import { fieldCells } from '../../scripts/block-fields.js';
 export default function decorate(block) {
   const { text, variant } = fieldCells(block, ['text', 'variant']);
   const style = variant ? variant.textContent.trim() : '';
-  if (variant) variant.remove();
+  // A variante ocupa uma linha própria; sai a linha inteira, não só a célula.
+  if (variant) variant.parentElement.remove();
   if (text) text.classList.add('notice-body');
   if (style) block.classList.add(style);
   block.setAttribute('role', 'note');
