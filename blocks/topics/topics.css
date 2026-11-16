@@ -1,7 +1,11 @@
 /*
  * Porte de Topics.style.tsx. Medidas em .scratch/porte-topics/referencia.md.
- * Mobile first: tudo em coluna; as etapas do processo seletivo passam a linha a partir de
- * 1200px (devices.desktop do portal). O programa do curso fica sempre em coluna.
+ * Mobile first: tudo em coluna. O decorate põe no bloco a classe do fluxo (resolveFlow do
+ * original), que diz quando a lista vira linha:
+ *   topics-flow-stack          sempre coluna;
+ *   topics-flow-row            sempre linha;
+ *   topics-flow-row-above-375  linha com o bloco de 375px ou mais (container query) e no desktop;
+ *   topics-flow-desktop-row    linha a partir de 1200px (devices.desktop do portal).
  */
 
 /*
@@ -27,6 +31,37 @@ main > .section > .topics-wrapper {
   }
 }
 
+/* Medidas que mudam com o estilo: Completo (44px; 44 + 7 de foco na linha) e Minimalista (24px). */
+.topics {
+  --topics-dot-column: 44px;
+  --topics-row-dot-height: 51px;
+  --topics-row-item-min: 160px;
+
+  /* Contexto do topics-flow-row-above-375. */
+  container-type: inline-size;
+}
+
+.topics.topics-minimal {
+  --topics-dot-column: 24px;
+  --topics-row-dot-height: 24px;
+  --topics-row-item-min: auto;
+}
+
+/* Título do bloco (TopicsTitle): GT Ultra Fine no portal, fonte de título do site aqui. */
+.topics .topics-heading {
+  margin: 24px 0;
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 28px;
+  letter-spacing: -0.1px;
+  color: var(--text-color, #1d1d1b);
+}
+
+.topics .topics-heading.topics-heading-red {
+  color: #e50505;
+}
+
 .topics .topics-list {
   list-style: none;
   margin: 0;
@@ -48,7 +83,7 @@ main > .section > .topics-wrapper {
   flex-direction: column;
   align-items: center;
   align-self: stretch;
-  width: 44px;
+  width: var(--topics-dot-column);
   flex: none;
 }
 
@@ -58,10 +93,6 @@ main > .section > .topics-wrapper {
   width: 1px;
   min-height: 24px;
   align-self: center;
-}
-
-.topics .topics-item:last-child .topics-connector {
-  display: none;
 }
 
 .topics .topics-dot {
@@ -81,6 +112,46 @@ main > .section > .topics-wrapper {
   letter-spacing: 0.65px;
 }
 
+/* Sem índice e sem "Concluído": o dot pequeno de 16px, sem texto. */
+.topics .topics-dot.topics-dot-small {
+  width: 16px;
+  height: 16px;
+}
+
+/* Minimalista: sempre 24px, Inter 700 10px no portal. */
+.topics.topics-minimal .topics-dot {
+  width: 24px;
+  height: 24px;
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.topics .topics-dot.topics-dot-completed {
+  background: #00c756;
+}
+
+.topics .topics-dot.topics-dot-disabled {
+  background: #eaeaea;
+  color: #6c7880;
+}
+
+.topics .topics-dot svg {
+  width: 16px;
+  height: 16px;
+}
+
+.topics .topics-dot-link {
+  display: inline-flex;
+  text-decoration: none;
+  border-radius: 50%;
+}
+
+.topics .topics-dot-link:focus-visible {
+  outline: 2px solid #e50505;
+  outline-offset: 2px;
+}
+
 .topics .topics-text {
   display: flex;
   flex-direction: column;
@@ -97,12 +168,6 @@ main > .section > .topics-wrapper {
   line-height: 20px;
   letter-spacing: -0.1px;
   color: var(--text-color, #1a1a1a);
-}
-
-/* Programa: sem número, o dot é o pequeno de 16px. */
-.topics.topics-programa .topics-dot {
-  width: 16px;
-  height: 16px;
 }
 
 .topics .topics-description {
@@ -136,36 +201,105 @@ main > .section > .topics-wrapper {
   margin: 0;
 }
 
-@media (width >= 1200px) {
-  .topics.topics-etapas .topics-list {
+/*
+ * A linha (horizontalFlow do original). As mesmas quatro regras, em três condições: sempre
+ * (row), com o bloco de 375px ou mais (row-above-375) e no desktop (row-above-375 e
+ * desktop-row; o row já está em linha).
+ */
+.topics.topics-flow-row .topics-list {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.topics.topics-flow-row .topics-item {
+  flex-direction: column;
+  align-items: stretch;
+  flex: 1 1 0;
+  min-width: var(--topics-row-item-min);
+}
+
+.topics.topics-flow-row .topics-dot-column {
+  flex-direction: row;
+  align-items: center;
+  align-self: auto;
+  width: auto;
+  height: var(--topics-row-dot-height);
+  flex: 1 1 auto;
+}
+
+.topics.topics-flow-row .topics-connector {
+  width: auto;
+  min-height: 0;
+  height: 1px;
+}
+
+@container (width >= 375px) {
+  .topics.topics-flow-row-above-375 .topics-list {
     flex-direction: row;
     align-items: flex-start;
   }
 
-  .topics.topics-etapas .topics-item {
+  .topics.topics-flow-row-above-375 .topics-item {
     flex-direction: column;
     align-items: stretch;
     flex: 1 1 0;
-    min-width: 160px;
+    min-width: var(--topics-row-item-min);
   }
 
-  /* 44px do dot + 7px de folga para o foco, como no original. */
-  .topics.topics-etapas .topics-dot-column {
+  .topics.topics-flow-row-above-375 .topics-dot-column {
     flex-direction: row;
     align-items: center;
     align-self: auto;
     width: auto;
-    height: 51px;
+    height: var(--topics-row-dot-height);
     flex: 1 1 auto;
   }
 
-  .topics.topics-etapas .topics-connector {
+  .topics.topics-flow-row-above-375 .topics-connector {
+    width: auto;
+    min-height: 0;
+    height: 1px;
+  }
+}
+
+@media (width >= 1200px) {
+  .topics.topics-flow-row-above-375 .topics-list,
+  .topics.topics-flow-desktop-row .topics-list {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .topics.topics-flow-row-above-375 .topics-item,
+  .topics.topics-flow-desktop-row .topics-item {
+    flex-direction: column;
+    align-items: stretch;
+    flex: 1 1 0;
+    min-width: var(--topics-row-item-min);
+  }
+
+  .topics.topics-flow-row-above-375 .topics-dot-column,
+  .topics.topics-flow-desktop-row .topics-dot-column {
+    flex-direction: row;
+    align-items: center;
+    align-self: auto;
+    width: auto;
+    height: var(--topics-row-dot-height);
+    flex: 1 1 auto;
+  }
+
+  .topics.topics-flow-row-above-375 .topics-connector,
+  .topics.topics-flow-desktop-row .topics-connector {
     width: auto;
     min-height: 0;
     height: 1px;
   }
 
-  .topics.topics-etapas .topics-text {
+  .topics.topics-flow-desktop-row .topics-text {
     padding: 16px 24px 0 0;
   }
+}
+
+/* O último tópico não tem conector, em qualquer fluxo. */
+.topics .topics-item:last-child .topics-connector {
+  display: none;
 }

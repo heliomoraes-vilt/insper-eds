@@ -25,5 +25,8 @@ module.exports = {
     'import/extensions': ['error', { js: 'always' }], // require js file extensions in imports
     'linebreak-style': ['error', 'unix'], // enforce unix linebreaks
     'no-param-reassign': [2, { props: false }], // allow modifying properties of param
+    // Autoria só pela Universal Editor: um campo por célula é o contrato medido no author.
+    // Agrupar campos (classes_*, grupos) só depois de medir o markup que ele gera.
+    'xwalk/max-cells': ['error', { '*': 4, topics: 5, 'topics-item': 6 }],
   },
 };

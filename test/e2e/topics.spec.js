@@ -307,3 +307,115 @@ test.describe('markup do author (Universal Editor)', () => {
     await expect(description.locator('[data-aue-prop]')).toHaveCount(0);
   });
 });
+
+// Autoria (fase 2): campos do _cq_dialog do original. Valores sem instância em PROD vêm do
+// Topics.style.tsx, registrados em .scratch/porte-topics/referencia.md ("Valores do código
+// que PROD não exercita"), e as regras do Topics.tsx.
+test.describe('autoria: campos do bloco e do tópico', () => {
+  const nth = (page, i) => page.locator('.topics').nth(i);
+  const GREEN = 'rgb(0, 199, 86)';
+  const direction = async (block) => (await style(block.locator('.topics-list'), ['flex-direction']))['flex-direction'];
+
+  test('o título do bloco é um h2 em 700 32/28px, margem 24px 0, vermelho com a cor alternativa', async ({ page }) => {
+    const heading = nth(page, 4).locator('> h2');
+    await expect(heading).toHaveText('Como funciona');
+    expect(await style(heading, ['font-weight', 'font-size', 'line-height', 'letter-spacing', 'margin', 'color']))
+      .toEqual({
+        'font-weight': '700', 'font-size': '32px', 'line-height': '28px', 'letter-spacing': '-0.1px', margin: '24px 0px', color: RED,
+      });
+    expect((await style(nth(page, 9).locator('> h2'), ['color'])).color).toBe(await siteTextColor(page));
+  });
+
+  test('índice automático numera de 01 e ignora o índice do tópico; Concluído mostra o check em verde', async ({ page }) => {
+    const dots = nth(page, 4).locator('.topics-dot');
+    await expect(dots.nth(0).locator('svg path')).toHaveAttribute('d', 'M13 4.5 6.5 11 3 7.5');
+    await expect(dots.nth(0)).toHaveText('');
+    await expect(dots.nth(1)).toHaveText('02');
+    await expect(dots.nth(2)).toHaveText('03');
+    expect(await style(dots.nth(0), ['background-color', 'color', 'width', 'height']))
+      .toEqual({
+        'background-color': GREEN, color: WHITE, width: '44px', height: '44px',
+      });
+    expect(await style(dots.nth(0).locator('svg'), ['width', 'height'])).toEqual({ width: '16px', height: '16px' });
+  });
+
+  test('Desabilitado fica cinza e nunca vira link', async ({ page }) => {
+    const item = nth(page, 4).locator('.topics-list > li').nth(1);
+    expect(await style(item.locator('.topics-dot'), ['background-color', 'color']))
+      .toEqual({ 'background-color': 'rgb(234, 234, 234)', color: 'rgb(108, 120, 128)' });
+    await expect(item.locator('a')).toHaveCount(0);
+  });
+
+  test('o link envolve só o dot, com o título como nome e nova aba quando marcada', async ({ page }) => {
+    const items = nth(page, 4).locator('.topics-list > li');
+    const first = items.nth(0).locator('a');
+    await expect(first).toHaveAttribute('href', '/pt/inscricao');
+    await expect(first).toHaveAttribute('aria-label', 'Inscrição');
+    await expect(first).toHaveAttribute('target', '_blank');
+    await expect(first).toHaveAttribute('rel', 'noopener noreferrer');
+    await expect(first.locator('.topics-dot')).toHaveCount(1);
+    await expect(items.nth(0).locator('h3 a')).toHaveCount(0);
+    const third = items.nth(2).locator('a');
+    await expect(third).toHaveAttribute('href', '/pt/resultado');
+    await expect(third).not.toHaveAttribute('target');
+    await page.keyboard.press('Tab');
+    await third.focus();
+    expect(await style(third, ['outline-style', 'outline-width', 'outline-color', 'outline-offset']))
+      .toEqual({
+        'outline-style': 'solid', 'outline-width': '2px', 'outline-color': RED, 'outline-offset': '2px',
+      });
+  });
+
+  test('horizontal com até 5 tópicos fica em linha a 1440px; com 6, em coluna', async ({ page }) => {
+    expect(await direction(nth(page, 4))).toBe('row');
+    expect(await direction(nth(page, 8))).toBe('column');
+  });
+
+  test('índice manual: até 3 caracteres, zero à esquerda só se numérico; sem índice, dot pequeno', async ({ page }) => {
+    const dots = nth(page, 7).locator('.topics-dot');
+    await expect(dots).toHaveText(['A', '07', '123', '', '']);
+    expect(await style(dots.nth(0), ['width', 'height'])).toEqual({ width: '44px', height: '44px' });
+    expect(await style(dots.nth(3), ['width', 'height'])).toEqual({ width: '16px', height: '16px' });
+    expect(await direction(nth(page, 7))).toBe('column');
+  });
+
+  test('um link sem título nem índice se chama "Tópico"', async ({ page }) => {
+    const link = nth(page, 7).locator('.topics-list > li').last().locator('a');
+    await expect(link).toHaveAttribute('aria-label', 'Tópico');
+  });
+
+  test('Minimalista: só o dot de 24px em 700 10px, sem texto, em linha', async ({ page }) => {
+    const block = nth(page, 6);
+    await expect(block.locator('.topics-text')).toHaveCount(0);
+    const dots = block.locator('.topics-dot');
+    await expect(dots).toHaveText(['01', '02', '03']);
+    expect(await style(dots.first(), ['width', 'height', 'font-weight', 'font-size']))
+      .toEqual({
+        width: '24px', height: '24px', 'font-weight': '700', 'font-size': '10px',
+      });
+    expect(await direction(block)).toBe('row');
+    const item = block.locator('.topics-list > li').first();
+    near(await boxIn(item.locator('.topics-dot-column'), item), { height: 24 });
+    expect(await direction(nth(page, 5))).toBe('row');
+  });
+
+  test('bloco com model e sem tópicos mostra as etapas em linha, mesmo com orientação vertical', async ({ page }) => {
+    const block = nth(page, 9);
+    await expect(block).toHaveClass(/topics-etapas/);
+    await expect(block.locator('.topics-dot')).toHaveText(['01', '02', '03', '04']);
+    expect(await direction(block)).toBe('row');
+  });
+
+  test.describe('a 375px', () => {
+    test.use({ viewport: { width: 375, height: 812 } });
+
+    test('Minimalista com mais de 6 tópicos vira coluna num bloco de menos de 375px; com 3, segue em linha', async ({ page }) => {
+      expect(await direction(nth(page, 5))).toBe('column');
+      expect(await direction(nth(page, 6))).toBe('row');
+    });
+
+    test('Completo horizontal fica em coluna', async ({ page }) => {
+      expect(await direction(nth(page, 4))).toBe('column');
+    });
+  });
+});

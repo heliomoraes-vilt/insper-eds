@@ -81,6 +81,14 @@ Medido no author de dev em 13/11/2026 (`share` e `world-map` na `index`):
 - `richtext` chega como HTML (`<p>`, `<b>`, `<a>`, `<br>`, `<table>`). **O pipeline
   remove `style` inline** — formatação inline do portal não chega.
 - `aem-content` (link) chega como `<a href>`; `fieldValues` já devolve o href.
+- **Model novo num bloco que já tem instâncias** (Fase 2, autoria): o nó guarda o model
+  da inserção, então as instâncias antigas chegam sem as linhas de campo. Ler com
+  `splitFieldRows` em vez de `fieldCells` + `itemRows`, e acrescentar os campos novos do
+  item depois dos que já existiam (células posicionais). Exemplo: `topics`,
+  `.scratch/porte-topics/autoria.md`.
+- **`xwalk/max-cells`** (máx. 4 células por model) é recomendação para autoria por
+  documento; com mais campos, liberar o model no `.eslintrc.js` em vez de agrupar campos
+  sem medir o markup.
 
 ## Lendo os campos
 
