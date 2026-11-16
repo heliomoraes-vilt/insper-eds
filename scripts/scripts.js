@@ -109,15 +109,39 @@ export function decorateButtons(main) {
   });
 }
 
+/*
+ * Nome antigo do bloco -> pasta atual. A classe do bloco vem do `name` gravado no nó de
+ * cada instância, copiado do `template.name` na hora em que o autor insere o bloco. As
+ * instâncias inseridas com o template antigo ("Compartilhar") guardaram esse nome e
+ * pediriam /blocks/compartilhar/ (404), aparecendo cruas. Trocar a classe aqui faz todas
+ * renderizarem sem editar o conteúdo no author.
+ */
+const LEGACY_BLOCK_NAMES = {
+  compartilhar: 'share',
+};
+
+/**
+ * Troca a classe dos blocos com nome antigo pelo nome da pasta, antes da decoração.
+ * @param {Element} root o próprio bloco ou um container com blocos
+ */
+export function renameLegacyBlocks(root) {
+  Object.entries(LEGACY_BLOCK_NAMES).forEach(([legacy, current]) => {
+    const blocks = [...root.querySelectorAll(`.${legacy}`)];
+    if (root.classList.contains(legacy)) blocks.push(root);
+    // replace mantém a posição: o aem.js lê o nome do bloco em classList[0].
+    blocks.forEach((block) => block.classList.replace(legacy, current));
+  });
+}
+
 /**
  * Decorates the main element.
  * @param {Element} main The main element
  */
-// eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
   decorateIcons(main);
   buildAutoBlocks(main);
   decorateSections(main);
+  renameLegacyBlocks(main);
   decorateBlocks(main);
   decorateButtons(main);
 }

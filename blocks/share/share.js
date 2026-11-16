@@ -5,11 +5,11 @@
  * que ele puxa de fora: 6 ícones de Icon.tsx, MicroComponents/Tooltip (Tippy)
  * e os 4 botões do react-share.
  *
- * Contrato xwalk (_share.json): uma linha, uma célula por campo, nesta ordem:
- *   text | tooltip | id
+ * Sem autoria: o bloco não tem model. Inserido, ele já sai com os ícones e os
+ * links das redes, como em PROD, onde nenhuma instância muda os padrões do
+ * diálogo. O conteúdo que vier dentro do bloco (instâncias criadas quando ele
+ * ainda tinha campos) é descartado.
  */
-
-import { fieldValues } from '../../scripts/block-fields.js';
 
 /* Ícones copiados de components/Icon/Icon.tsx (cases newShare, newMagneticlink,
    linkedinShare, twitterShare, facebookShare, whatsappShare). */
@@ -23,8 +23,8 @@ const ICONS = {
 };
 
 /* Padrões do diálogo AEM (shareComponent/_cq_dialog) e do Sling Model. */
-const DEFAULT_TEXT = 'Confira mais em:';
-const DEFAULT_TOOLTIP = 'Link copiado com sucesso.';
+const SHARE_TEXT = 'Confira mais em:';
+const TOOLTIP_TEXT = 'Link copiado com sucesso.';
 
 /* URLs montadas exatamente como o react-share 4.4.1 monta
    (lib/*ShareButton.js + utils/objectToGetParams.js). */
@@ -128,11 +128,9 @@ const attachTooltip = (wrapper, button, message) => {
 };
 
 export default function decorate(block) {
-  const config = fieldValues(block, ['text', 'tooltip', 'id']);
-  const text = config.text || DEFAULT_TEXT;
-  const tooltip = config.tooltip || DEFAULT_TOOLTIP;
+  const text = SHARE_TEXT;
+  const tooltip = TOOLTIP_TEXT;
 
-  if (config.id) block.id = config.id;
   block.textContent = '';
 
   const list = document.createElement('div');

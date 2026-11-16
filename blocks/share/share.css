@@ -1,8 +1,30 @@
 /*
  * Porte de ShareComponent.style.tsx + o que vinha do Tooltip.style.tsx e do
- * tema padrão do Tippy. O grid do portal não vem junto: aqui a seção já dá a
- * largura máxima e o padding lateral.
+ * tema padrão do Tippy.
  */
+
+/*
+ * Grid do portal (InsperContainer, _grid.style.ts): no máximo 1512px, recuo de
+ * 24/48/96px. Substitui o container de 1200px + 24/32px do boilerplate, que
+ * deslocava a lista 60px para a direita a 1920px.
+ */
+main > .section > .share-wrapper {
+  box-sizing: border-box;
+  max-width: 1512px;
+  padding: 0 24px;
+}
+
+@media (width >= 768px) {
+  main > .section > .share-wrapper {
+    padding: 0 48px;
+  }
+}
+
+@media (width >= 1200px) {
+  main > .section > .share-wrapper {
+    padding: 0 96px;
+  }
+}
 
 .share {
   display: flex;
