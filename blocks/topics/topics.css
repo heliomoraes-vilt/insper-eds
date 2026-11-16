@@ -136,20 +136,6 @@ main > .section > .topics-wrapper {
   margin: 0;
 }
 
-.topics .topics-description strong,
-.topics .topics-description b {
-  font-weight: 700;
-}
-
-.topics .topics-description em,
-.topics .topics-description i {
-  font-style: italic;
-}
-
-.topics .topics-description u {
-  text-decoration: underline;
-}
-
 @media (width >= 1200px) {
   .topics.topics-etapas .topics-list {
     flex-direction: row;

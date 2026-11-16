@@ -12,6 +12,10 @@
 
 import { moveInstrumentation } from '../../scripts/scripts.js';
 import { fetchPlaceholders, placeholder } from '../../scripts/placeholders.js';
+import { itemRows } from '../../scripts/block-fields.js';
+
+/* O bloco não tem campos: todas as linhas são tópicos. */
+const FIELDS = [];
 
 /* Textos de PROD, fallback dos placeholders topics-step-1 a topics-step-4. */
 const ETAPAS = [
@@ -23,14 +27,21 @@ const ETAPAS = [
 
 /* Allowlist do sanitize-html do original (DESCRIPTION_SANITIZE_OPTIONS). */
 const ALLOWED_TAGS = new Set(['P', 'STRONG', 'B', 'EM', 'I', 'U', 'UL', 'OL', 'LI']);
+/* nonTextTags do sanitize-html: removidas junto com o texto. */
+const DROPPED_TAGS = new Set(['SCRIPT', 'STYLE', 'TEXTAREA', 'OPTION', 'NOSCRIPT']);
 
 /**
  * Deixa só as tags da allowlist, sem atributos; as demais são desembrulhadas (o texto fica),
- * como o allowedTags do sanitize-html.
+ * menos script, style, textarea, option e noscript, que somem inteiras. É o comportamento
+ * do sanitize-html com as opções do original.
  * @param {Element} root elemento cujos descendentes são limpos (ele mesmo fica intacto)
  */
 function sanitize(root) {
   [...root.children].forEach((child) => {
+    if (DROPPED_TAGS.has(child.tagName)) {
+      child.remove();
+      return;
+    }
     sanitize(child);
     if (ALLOWED_TAGS.has(child.tagName)) {
       [...child.attributes].forEach(({ name }) => child.removeAttribute(name));
@@ -47,17 +58,17 @@ const el = (tag, className) => {
 };
 
 /**
- * Monta um tópico.
- * @param {object} topic
- * @param {number} [topic.index] número do dot (só nas etapas)
- * @param {string} topic.title
- * @param {Element} [topic.titleCell] célula autorada do título (instrumentação)
- * @param {Element} [topic.descriptionCell] célula autorada da descrição
- * @param {Element} [topic.row] linha autorada do tópico (instrumentação)
+ * Monta o <li> de um tópico: de uma linha autorada (programa) ou de um título fixo (etapas).
+ * @param {object} source
+ * @param {Element} [source.row] linha autorada: title | description (richtext)
+ * @param {string} [source.title] título fixo, quando não há linha
+ * @param {number} [source.index] número do dot (só nas etapas)
+ * @returns {HTMLLIElement}
  */
-function topic({
-  index, title, titleCell, descriptionCell, row,
-}) {
+function topicItem({ row, title: fixedTitle, index }) {
+  const [titleCell, descriptionCell] = row ? [...row.children] : [];
+  const title = titleCell ? titleCell.textContent.trim() : fixedTitle;
+
   const li = el('li', 'topics-item');
   if (row) moveInstrumentation(row, li);
 
@@ -86,20 +97,15 @@ function topic({
 }
 
 export default async function decorate(block) {
-  const rows = [...block.children];
+  const rows = itemRows(block, FIELDS);
   const list = el('ol', 'topics-list');
 
   if (rows.length) {
-    rows.forEach((row) => {
-      const [titleCell, descriptionCell] = [...row.children];
-      list.append(topic({
-        title: titleCell ? titleCell.textContent.trim() : '', titleCell, descriptionCell, row,
-      }));
-    });
+    rows.forEach((row) => list.append(topicItem({ row })));
     block.classList.add('topics-programa');
   } else {
     const table = await fetchPlaceholders();
-    ETAPAS.forEach((fallback, i) => list.append(topic({
+    ETAPAS.forEach((fallback, i) => list.append(topicItem({
       index: i + 1, title: placeholder(table, `topics-step-${i + 1}`, fallback),
     })));
     block.classList.add('topics-etapas');

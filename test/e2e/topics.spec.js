@@ -54,7 +54,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('inserido vazio, mostra as etapas do processo seletivo numeradas de 01 a 04', async ({ page }) => {
-  const items = etapas(page).locator('ol > li');
+  const items = etapas(page).locator('.topics-list > li');
   await expect(items).toHaveCount(4);
   await expect(items.locator('h3')).toHaveText(ETAPAS);
   await expect(items.locator('.topics-dot')).toHaveText(['01', '02', '03', '04']);
@@ -62,7 +62,7 @@ test('inserido vazio, mostra as etapas do processo seletivo numeradas de 01 a 04
 
 test.describe('etapas a 1440px', () => {
   test('ficam em linha, com os itens dividindo a largura em partes iguais e vão de 16px', async ({ page }) => {
-    const list = etapas(page).locator('ol');
+    const list = etapas(page).locator('.topics-list');
     const items = list.locator('> li');
     expect((await style(list, ['flex-direction']))['flex-direction']).toBe('row');
     expect(await style(items.first(), ['flex-direction', 'row-gap'])).toEqual({ 'flex-direction': 'column', 'row-gap': '16px' });
@@ -74,7 +74,7 @@ test.describe('etapas a 1440px', () => {
   });
 
   test('o dot tem 44px, vermelho com número branco em 600 13px, numa coluna de 51px', async ({ page }) => {
-    const item = etapas(page).locator('ol > li').first();
+    const item = etapas(page).locator('.topics-list > li').first();
     near(await boxIn(item.locator('.topics-dot-column'), item), { x: 0, y: 0, height: 51 });
     const dot = item.locator('.topics-dot');
     near(await boxIn(dot, item), {
@@ -87,7 +87,7 @@ test.describe('etapas a 1440px', () => {
   });
 
   test('o conector é uma linha cinza de 1px do dot até o fim do item; o último não tem', async ({ page }) => {
-    const items = etapas(page).locator('ol > li');
+    const items = etapas(page).locator('.topics-list > li');
     const item = items.first();
     const { width } = await item.boundingBox();
     const connector = item.locator('.topics-connector');
@@ -99,7 +99,7 @@ test.describe('etapas a 1440px', () => {
   });
 
   test('o título fica 16px abaixo da coluna do dot, em 700 16/20px, com padding 16 24 0 0', async ({ page }) => {
-    const item = etapas(page).locator('ol > li').first();
+    const item = etapas(page).locator('.topics-list > li').first();
     const text = item.locator('.topics-text');
     near(await boxIn(text, item), { x: 0, y: 67 });
     expect((await style(text, ['padding']))).toEqual({ padding: '16px 24px 0px 0px' });
@@ -117,7 +117,7 @@ test.describe('etapas a 375px', () => {
   test.use({ viewport: { width: 375, height: 812 } });
 
   test('ficam em coluna, com o dot de 44px à esquerda e o conector vertical até o próximo', async ({ page }) => {
-    const list = etapas(page).locator('ol');
+    const list = etapas(page).locator('.topics-list');
     const items = list.locator('> li');
     expect((await style(list, ['flex-direction']))['flex-direction']).toBe('column');
     const item = items.first();
@@ -135,7 +135,7 @@ test.describe('etapas a 375px', () => {
   });
 
   test('o texto começa em x=60, com padding 0 24 24 0', async ({ page }) => {
-    const item = etapas(page).locator('ol > li').first();
+    const item = etapas(page).locator('.topics-list > li').first();
     const text = item.locator('.topics-text');
     near(await boxIn(text, item), { x: 60, y: 0 });
     expect(await style(text, ['padding'])).toEqual({ padding: '0px 24px 24px 0px' });
@@ -145,7 +145,7 @@ test.describe('etapas a 375px', () => {
 
 test.describe('programa do curso', () => {
   test('com tópicos, mostra o programa em coluna, sem número nos dots', async ({ page }) => {
-    const list = programa(page).locator('ol');
+    const list = programa(page).locator('.topics-list');
     const items = list.locator('> li');
     await expect(items).toHaveCount(5);
     await expect(items.locator('h3')).toHaveText(PROGRAMA);
@@ -155,7 +155,7 @@ test.describe('programa do curso', () => {
   });
 
   test('o dot pequeno tem 16px, centrado na coluna de 44px, e o conector desce até o próximo', async ({ page }) => {
-    const items = programa(page).locator('ol > li');
+    const items = programa(page).locator('.topics-list > li');
     const item = items.first();
     near(await boxIn(item.locator('.topics-dot-column'), item), { x: 0, y: 0, width: 44 });
     near(await boxIn(item.locator('.topics-dot'), item), {
@@ -169,7 +169,7 @@ test.describe('programa do curso', () => {
   });
 
   test('o título fica em x=60 e a descrição 8px abaixo, em 400 13/21px', async ({ page }) => {
-    const item = programa(page).locator('ol > li').first();
+    const item = programa(page).locator('.topics-list > li').first();
     const text = item.locator('.topics-text');
     near(await boxIn(text, item), { x: 60, y: 0 });
     expect(await style(text, ['padding', 'row-gap'])).toEqual({ padding: '0px 24px 24px 0px', 'row-gap': '8px' });
@@ -182,7 +182,7 @@ test.describe('programa do curso', () => {
   });
 
   test('a lista da descrição tem marcador circle, recuo de 20px e margem inferior de 8px', async ({ page }) => {
-    const item = programa(page).locator('ol > li').first();
+    const item = programa(page).locator('.topics-list > li').first();
     const list = item.locator('.topics-description ul');
     expect(await style(list, ['list-style-type', 'list-style-position', 'padding-left', 'margin-top', 'margin-bottom']))
       .toEqual({
@@ -200,14 +200,16 @@ test.describe('programa do curso', () => {
 test.describe('autoria', () => {
   const sujo = (page) => page.locator('.topics').nth(2);
 
-  test('a descrição só mantém p, strong, b, em, i, u, ul, ol e li, sem atributos, e o texto fica', async ({ page }) => {
+  test('a descrição só mantém p, strong, b, em, i, u, ul, ol e li, sem atributos; o texto das outras fica, menos o de style e textarea', async ({ page }) => {
     const description = sujo(page).locator('.topics-description').first();
     expect(await description.evaluate((node) => node.innerHTML))
-      .toBe('Subtítulo<p>Texto com link e <em>ênfase</em>.</p>');
+      .toBe('Subtítulo<p>Texto com link e <em>ênfase</em>.</p>'
+        + '<ol><li><strong>forte</strong>, <b>negrito</b>, <i>itálico</i> e <u>sublinhado</u></li></ol>'
+        + '<p><strong>aninhado</strong></p>');
   });
 
   test('um tópico vazio continua com o dot, e o último não tem conector', async ({ page }) => {
-    const items = sujo(page).locator('ol > li');
+    const items = sujo(page).locator('.topics-list > li');
     await expect(items).toHaveCount(2);
     await expect(items.last().locator('.topics-dot')).toBeVisible();
     await expect(items.last().locator('h3')).toHaveCount(0);
@@ -244,7 +246,7 @@ test.describe('grid do portal', () => {
 });
 
 test('é uma lista ordenada com um h3 por tópico, sem landmark de navegação', async ({ page }) => {
-  await expect(etapas(page).locator('ol > li > .topics-text > h3')).toHaveCount(4);
+  await expect(etapas(page).locator('.topics-list > li > .topics-text > h3')).toHaveCount(4);
   await expect(page.locator('.topics nav, .topics [role="navigation"]')).toHaveCount(0);
   await expect(page.locator('.topics').first()).not.toHaveAttribute('aria-label');
 });
@@ -262,5 +264,25 @@ test.describe('tema escuro', () => {
     expect(body.color).not.toBe(body.background);
     expect((await style(title, ['color'])).color).toBe(body.color);
     expect((await style(description, ['color'])).color).toBe(body.color);
+  });
+});
+
+test.describe('programa a 375px', () => {
+  test.use({ viewport: { width: 375, height: 812 } });
+
+  test('mantém o dot de 16px em (14, 0), o texto em x=60 e a lista em x=80', async ({ page }) => {
+    const items = programa(page).locator('.topics-list > li');
+    const item = items.first();
+    expect((await style(item, ['flex-direction']))['flex-direction']).toBe('row');
+    near(await boxIn(item.locator('.topics-dot'), item), {
+      x: 14, y: 0, width: 16, height: 16,
+    });
+    const { height } = await item.boundingBox();
+    near(await boxIn(item.locator('.topics-connector'), item), {
+      x: 21.5, y: 16, width: 1, height: height - 16,
+    });
+    near(await boxIn(item.locator('.topics-text'), item), { x: 60, y: 0 });
+    near(await boxIn(item.locator('.topics-description li').first(), item), { x: 80 });
+    await expect(items.last().locator('.topics-connector')).toBeHidden();
   });
 });
