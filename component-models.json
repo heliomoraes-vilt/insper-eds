@@ -415,6 +415,68 @@
     ]
   },
   {
+    "id": "topics",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "label": "Título",
+        "description": "Título exibido no topo do componente. Ex.: Como funciona"
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "alternativeTitleColor",
+        "label": "Cor alternativa do título",
+        "description": "Inverte a cor do título entre preto e vermelho."
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "style",
+        "label": "Estilo",
+        "description": "O estilo Minimalista exibe uma sequência simplificada, sem texto e com ícones menores.",
+        "value": "full",
+        "options": [
+          {
+            "name": "Completo",
+            "value": "full"
+          },
+          {
+            "name": "Minimalista",
+            "value": "minimal"
+          }
+        ]
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "desktopOrientation",
+        "label": "Orientação no desktop",
+        "description": "Só no estilo Completo e só para os tópicos adicionados (as etapas do bloco vazio ficam sempre em linha). No mobile a lista é sempre vertical; com mais de 5 tópicos, Horizontal também fica na vertical.",
+        "value": "vertical",
+        "options": [
+          {
+            "name": "Vertical",
+            "value": "vertical"
+          },
+          {
+            "name": "Horizontal",
+            "value": "horizontal"
+          }
+        ]
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "automaticIndex",
+        "label": "Índice automático",
+        "description": "Numera os tópicos adicionados (01, 02, 03...) e ignora o Índice de cada tópico. As etapas do bloco vazio são sempre numeradas."
+      }
+    ]
+  },
+  {
     "id": "topics-item",
     "fields": [
       {
@@ -429,6 +491,51 @@
         "name": "description",
         "label": "Descrição",
         "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "index",
+        "label": "Índice",
+        "description": "Máx. 3 caracteres. Ignorado quando o Índice automático está marcado.",
+        "validation": {
+          "maxLength": 3
+        }
+      },
+      {
+        "component": "aem-content",
+        "valueType": "string",
+        "name": "link",
+        "label": "Link (opcional)",
+        "description": "Se preenchido, apenas o marcador (dot) será clicável."
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "linkNewTab",
+        "label": "Abrir link em nova aba",
+        "description": "Aplicável apenas quando um Link estiver preenchido."
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "dotAppearance",
+        "label": "Aparência do marcador",
+        "value": "default",
+        "options": [
+          {
+            "name": "Padrão",
+            "value": "default"
+          },
+          {
+            "name": "Concluído",
+            "value": "completed"
+          },
+          {
+            "name": "Desabilitado",
+            "value": "disabled"
+          }
+        ]
       }
     ]
   },

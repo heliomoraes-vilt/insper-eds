@@ -42,6 +42,30 @@ export function fieldValues(block, names) {
 }
 
 /**
+ * Campos e itens de um bloco que ganhou model depois de já ter instâncias autoradas.
+ *
+ * Cada instância guarda no nó o model de quando foi inserida: as inseridas antes do model
+ * chegam sem as linhas de campo, só com os itens. Conta como campo cada linha inicial com
+ * uma célula só, até `names.length`; um item tem uma célula por campo do item (pelo menos
+ * duas), então a primeira linha com mais de uma célula já é item. Por isso só serve para
+ * blocos cujo item tenha dois campos ou mais.
+ * @param {Element} block elemento do bloco
+ * @param {string[]} names nomes dos campos do bloco, na ordem do model
+ * @returns {{cells: Object<string, Element|undefined>, items: Element[]}} as células dos
+ *   campos presentes (ausente = undefined) e as linhas de item
+ */
+export function splitFieldRows(block, names) {
+  const rows = [...block.children];
+  let count = 0;
+  while (count < names.length && rows[count] && rows[count].children.length === 1) count += 1;
+  const cells = {};
+  names.forEach((name, i) => {
+    cells[name] = i < count ? rows[i].firstElementChild : undefined;
+  });
+  return { cells, items: rows.slice(count) };
+}
+
+/**
  * As linhas de itens filhos, que vêm depois das linhas de campo.
  * @param {Element} block elemento do bloco
  * @param {string[]} names nomes dos campos do bloco, na ordem do model
