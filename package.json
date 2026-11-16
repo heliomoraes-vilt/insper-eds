@@ -12,7 +12,8 @@
     "build:json:models": "merge-json-cli -i \"models/_component-models.json\" -o \"component-models.json\"",
     "build:json:definitions": "merge-json-cli -i \"models/_component-definition.json\" -o \"component-definition.json\"",
     "build:json:filters": "merge-json-cli -i \"models/_component-filters.json\" -o \"component-filters.json\"",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "playwright test"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
   "homepage": "https://github.com/heliomoraes-vilt/insper-eds#readme",
   "devDependencies": {
     "@babel/eslint-parser": "7.28.6",
+    "@playwright/test": "1.65.1",
     "eslint": "8.57.1",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-plugin-import": "2.32.0",

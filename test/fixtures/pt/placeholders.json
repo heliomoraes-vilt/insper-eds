@@ -1,0 +1,10 @@
+{
+  "total": 2,
+  "offset": 0,
+  "limit": 2,
+  "data": [
+    { "Key": "fixture-greeting", "Text": "Olá da tabela" },
+    { "Key": "fixture-empty", "Text": "" }
+  ],
+  ":type": "sheet"
+}
