@@ -85,8 +85,13 @@
     </div>
     <div>
       <h2>Tópicos</h2>
-      <!-- topics vazio: sem campos e sem tópicos, mostra as etapas do processo seletivo -->
-      <div class="topics"></div>
+      <!-- topics vazio, copiado do author de dev (16/11/2026): um bloco sem model chega com
+           uma linha de uma célula vazia, sem instrumentação. Mostra as etapas. -->
+      <div data-aue-resource="urn:aemconnection:/content/insper-eds/index/jcr:content/root/section_0/topics" data-aue-type="container" data-aue-component="topics" data-aue-behavior="component" data-aue-label="Topics" data-aue-filter="topics" class="topics">
+        <div>
+          <div></div>
+        </div>
+      </div>
       <!-- topics com tópicos: programa do curso (Gestão Financeira Empresarial, PROD).
            Uma linha por tópico, uma célula por campo: title | description (richtext) -->
       <div class="topics">
@@ -120,6 +125,13 @@
         <div>
           <div></div>
           <div></div>
+        </div>
+      </div>
+      <!-- tópico como o author entrega na Universal Editor: linha e células instrumentadas -->
+      <div data-aue-resource="urn:aemconnection:/content/insper-eds/index/jcr:content/root/section_0/topics_1" data-aue-type="container" data-aue-component="topics" data-aue-behavior="component" data-aue-label="Topics" data-aue-filter="topics" class="topics">
+        <div data-aue-resource="urn:aemconnection:/content/insper-eds/index/jcr:content/root/section_0/topics_1/topics_item" data-aue-type="component" data-aue-component="topics-item" data-aue-model="topics-item" data-aue-label="Item">
+          <div data-aue-prop="title" data-aue-label="Título" data-aue-type="text">Decisões de capital de giro</div>
+          <div data-aue-prop="description" data-aue-label="Descrição" data-aue-type="richtext">Gestão Financeira de Curto Prazo.</div>
         </div>
       </div>
     </div>

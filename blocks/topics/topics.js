@@ -58,6 +58,25 @@ const el = (tag, className) => {
 };
 
 /**
+ * Move a instrumentação da célula para `to`, inclusive a que o wrapTextNodes do aem.js já
+ * passou da célula para o <p> que ele cria em volta do texto.
+ * @param {Element} cell célula autorada
+ * @param {Element} to elemento que a substitui
+ */
+function moveCellInstrumentation(cell, to) {
+  moveInstrumentation(cell, to);
+  cell.querySelectorAll('[data-aue-prop], [data-richtext-prop]')
+    .forEach((node) => moveInstrumentation(node, to));
+}
+
+/**
+ * Uma linha é tópico quando tem as células dos campos do item (title | description), mesmo
+ * vazias. O author entrega o bloco vazio com uma linha de uma célula vazia, que não é tópico.
+ * @param {Element} row
+ */
+const isTopicRow = (row) => row.children.length > 1 || row.textContent.trim() !== '';
+
+/**
  * Monta o <li> de um tópico: de uma linha autorada (programa) ou de um título fixo (etapas).
  * @param {object} source
  * @param {Element} [source.row] linha autorada: title | description (richtext)
@@ -80,13 +99,13 @@ function topicItem({ row, title: fixedTitle, index }) {
   const text = el('div', 'topics-text');
   if (title) {
     const heading = el('h3', 'topics-title');
-    if (titleCell) moveInstrumentation(titleCell, heading);
+    if (titleCell) moveCellInstrumentation(titleCell, heading);
     heading.textContent = title;
     text.append(heading);
   }
   if (descriptionCell && descriptionCell.textContent.trim()) {
     const description = el('div', 'topics-description');
-    moveInstrumentation(descriptionCell, description);
+    moveCellInstrumentation(descriptionCell, description);
     sanitize(descriptionCell);
     description.append(...descriptionCell.childNodes);
     text.append(description);
@@ -97,7 +116,7 @@ function topicItem({ row, title: fixedTitle, index }) {
 }
 
 export default async function decorate(block) {
-  const rows = itemRows(block, FIELDS);
+  const rows = itemRows(block, FIELDS).filter(isTopicRow);
   const list = el('ol', 'topics-list');
 
   if (rows.length) {

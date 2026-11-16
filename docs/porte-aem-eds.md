@@ -61,6 +61,17 @@ Medido no author de dev em 13/11/2026 (`share` e `world-map` na `index`):
 - Itens filhos depois dos campos: a forma "uma linha por item, uma célula por campo"
   vem do boilerplate e do `hero`. **Confirmar no dev** no primeiro bloco com itens e
   campos ao mesmo tempo.
+- **Itens sem campos de bloco** (medido no `topics`, 16/11/2026): cada item é uma linha
+  com `data-aue-model="<item>"` e **uma célula por campo, mesmo vazias**; célula vazia
+  vem sem `data-aue-prop`.
+- **Bloco sem model e sem itens** chega com **uma linha de uma célula vazia**, sem
+  instrumentação (`<div class="topics"><div><div></div></div></div>`). Ela não é item:
+  filtrar antes de contar linhas.
+- **Instrumentação das células:** o `wrapTextNodes` do `aem.js` (dentro do
+  `decorateBlock`, antes do `decorate`) embrulha o texto solto da célula num `<p>` e
+  **passa os `data-aue-*` da célula para esse `<p>`**. Ao trocar a célula por outro
+  elemento, mover a instrumentação da célula **e** dos descendentes com
+  `data-aue-prop`; senão a edição no canvas se perde.
 - Ao escrever o markup de `test/eds-port.html`, copiar o HTML real que o author gera
   (abrir a página limpa no Chrome e copiar o `outerHTML` do bloco antes do
   `decorate`, ou o `.plain.html`), em vez de escrevê-lo à mão. O preview local só
