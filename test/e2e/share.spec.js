@@ -90,6 +90,8 @@ test('sem tooltip autorada, o balão usa o texto padrão do diálogo', async ({ 
   await expect(block).not.toHaveAttribute('id');
 });
 
-test('o id autorado vira o id do bloco', async ({ page }) => {
-  await expect(share(page)).toHaveAttribute('id', 'compartilhar');
+// O id saiu junto com o model (d77da11): nenhuma instância de PROD muda o padrão.
+test('o bloco não recebe id, nem nas instâncias antigas', async ({ page }) => {
+  await expect(share(page)).not.toHaveAttribute('id');
+  await expect(page.locator('.share').nth(1)).not.toHaveAttribute('id');
 });
