@@ -86,6 +86,15 @@ Medido no author de dev em 13/11/2026 (`share` e `world-map` na `index`):
   `splitFieldRows` em vez de `fieldCells` + `itemRows`, e acrescentar os campos novos do
   item depois dos que já existiam (células posicionais). Exemplo: `topics`,
   `.scratch/porte-topics/autoria.md`.
+- **Medido no author ao inserir um `topics` com model** (16/11/2026; markup em
+  `test/eds-port.html`, blocos 10 a 12):
+  - cada nó guarda `modelFields` da inserção, e o author gera uma célula por entrada; a
+    primeira edição de um item pelo painel reescreve a lista com o model atual. O bloco sem
+    model não tem campo no painel, então só ganha o model reinserido;
+  - o `value` do model não é gravado: a célula chega vazia até o autor mudar o campo, e o
+    padrão tem de estar no código;
+  - `text` com valor leva `data-aue-prop`; `boolean`, `select` e células vazias não;
+  - `aem-content` chega como `<a href="/content/.../pagina.html">`.
 - **`xwalk/max-cells`** (máx. 4 células por model) é recomendação para autoria por
   documento; com mais campos, liberar o model no `.eslintrc.js` em vez de agrupar campos
   sem medir o markup.

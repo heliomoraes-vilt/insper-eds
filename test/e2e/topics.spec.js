@@ -306,6 +306,50 @@ test.describe('markup do author (Universal Editor)', () => {
     await expect(description).toHaveAttribute('data-aue-type', 'richtext');
     await expect(description.locator('[data-aue-prop]')).toHaveCount(0);
   });
+
+  test.describe('bloco com model (autoria, medido em 16/11/2026)', () => {
+    const vazio = (page) => page.locator('.topics').nth(10);
+    const configurado = (page) => page.locator('.topics').nth(11);
+    const antigo = (page) => page.locator('.topics').nth(12);
+
+    test('inserido vazio (5 linhas de campo vazias) mostra as etapas, sem título', async ({ page }) => {
+      await expect(vazio(page)).toHaveClass(/topics-etapas/);
+      await expect(vazio(page).locator('.topics-dot')).toHaveText(['01', '02', '03', '04']);
+      await expect(vazio(page).locator('h2')).toHaveCount(0);
+    });
+
+    test('o título leva a instrumentação para o h2, e os campos viram estilo', async ({ page }) => {
+      const block = configurado(page);
+      const heading = block.locator('> h2');
+      await expect(heading).toHaveText('Como funciona');
+      await expect(heading).toHaveAttribute('data-aue-prop', 'title');
+      expect((await style(heading, ['color'])).color).toBe(RED);
+      await expect(block).toHaveClass(/topics-flow-desktop-row/);
+      await expect(block.locator('.topics-dot')).toHaveText(['', '02', '03']);
+      await expect(block.locator('.topics-dot').first()).toHaveClass(/topics-dot-completed/);
+      await expect(block.locator('.topics-dot').nth(1)).toHaveClass(/topics-dot-disabled/);
+    });
+
+    test('os tópicos novos mantêm a instrumentação, e o link aem-content vai para o dot', async ({ page }) => {
+      const items = configurado(page).locator('.topics-list > li');
+      await expect(items).toHaveCount(3);
+      await expect(items.first()).toHaveAttribute('data-aue-model', 'topics-item');
+      await expect(items.first().locator('h3')).toHaveAttribute('data-aue-prop', 'title');
+      const link = items.first().locator('a');
+      await expect(link).toHaveAttribute('href', '/content/insper-eds/index.html');
+      await expect(link).toHaveAttribute('target', '_blank');
+      await expect(link).toHaveAttribute('aria-label', 'Inscrição');
+    });
+
+    test('o bloco anterior ao model lê o tópico com 6 células e o com 2', async ({ page }) => {
+      const items = antigo(page).locator('.topics-list > li');
+      await expect(items).toHaveCount(2);
+      await expect(antigo(page)).toHaveClass(/topics-flow-stack/);
+      await expect(items.locator('.topics-dot')).toHaveText(['A', '']);
+      await expect(items.first().locator('h3')).toHaveText('Titulo');
+      await expect(items.first().locator('.topics-description')).toHaveText('descricao');
+    });
+  });
 });
 
 // Autoria (fase 2): campos do _cq_dialog do original. Valores sem instância em PROD vêm do
