@@ -5,8 +5,8 @@
  * titleColor, os ícones plus/minus de Icon.tsx e a whitelist do sanitize-html.
  *
  * Contrato xwalk (_accordion.json):
- *   1ª linha  -> campos do bloco: title | alternativeTitleColor | id
- *   demais    -> um item "Accordion — item" por linha: title | body (richtext)
+ *   3 primeiras linhas -> um campo do bloco por linha: title, alternativeTitleColor, id
+ *   demais             -> um item "Accordion — item" por linha: title | body (richtext)
  *
  * Comportamento do original mantido: começa tudo fechado e só um item fica aberto
  * por vez. Aqui isso sai do <details name="..."> nativo (abrir um fecha os outros
@@ -14,7 +14,7 @@
  */
 
 import { moveInstrumentation } from '../../scripts/scripts.js';
-import { fieldCells } from '../../scripts/block-fields.js';
+import { fieldCells, itemRows } from '../../scripts/block-fields.js';
 
 const FIELDS = ['title', 'alternativeTitleColor', 'id'];
 
@@ -63,8 +63,8 @@ function itemFromRow(row, groupName, contentClass) {
 }
 
 export default function decorate(block) {
-  const [, ...itemRows] = [...block.children];
   const cells = fieldCells(block, FIELDS);
+  const rows = itemRows(block, FIELDS);
   const title = text(cells.title);
   const alternativeTitleColor = text(cells.alternativeTitleColor) === 'true';
   const id = text(cells.id);
@@ -87,7 +87,7 @@ export default function decorate(block) {
   // com título, "richtext"; sem, "wrapper__content", que ganha rolagem horizontal.
   const contentClass = title ? 'accordion-content-rich' : 'accordion-content-plain';
   const list = el('ul', 'accordion-list');
-  itemRows.forEach((row) => {
+  rows.forEach((row) => {
     const item = itemFromRow(row, groupName, contentClass);
     if (item) list.append(item);
   });
