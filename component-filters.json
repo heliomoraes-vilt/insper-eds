@@ -22,7 +22,8 @@
       "world-map",
       "share",
       "instagram-timeline",
-      "accordion"
+      "accordion",
+      "topics"
     ]
   },
   {
@@ -56,6 +57,12 @@
     "id": "hero",
     "components": [
       "hero-cta"
+    ]
+  },
+  {
+    "id": "topics",
+    "components": [
+      "topics-item"
     ]
   }
 ]
