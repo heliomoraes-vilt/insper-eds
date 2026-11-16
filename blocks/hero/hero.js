@@ -1,12 +1,12 @@
 import { moveInstrumentation } from '../../scripts/scripts.js';
-import { fieldCells } from '../../scripts/block-fields.js';
+import { fieldCells, itemRows } from '../../scripts/block-fields.js';
 
 /*
  * Hero em duas colunas: rótulo, título e texto de apoio à esquerda; nota e botões à direita.
  *
- * A primeira linha traz os quatro campos do bloco, na ordem declarada em _hero.json. Cada
- * linha seguinte é um item "Hero — botão" (destino, texto, estilo). O limite de quatro
- * células por bloco é o que obriga os botões a serem itens em vez de campos.
+ * As quatro primeiras linhas são os campos do bloco, uma por campo, na ordem de _hero.json.
+ * Cada linha seguinte é um item "Hero — botão" (destino, texto, estilo). O limite de quatro
+ * campos por bloco é o que obriga os botões a serem itens em vez de campos.
  *
  * A instrumentação da UE viaja junto com cada elemento (moveInstrumentation), para o autor
  * clicar no texto na página e cair no campo certo.
@@ -60,7 +60,6 @@ function ctaFromRow(row) {
 }
 
 export default function decorate(block) {
-  const rows = [...block.children];
   const cells = fieldCells(block, FIELDS);
 
   const content = el('div', 'hero-content');
@@ -83,7 +82,7 @@ export default function decorate(block) {
   appendRichText(cells.lead, content, 'hero-lead');
   appendRichText(cells.note, aside, 'hero-note');
 
-  rows.slice(1).forEach((row) => {
+  itemRows(block, FIELDS).forEach((row) => {
     const cta = ctaFromRow(row);
     if (cta) aside.append(cta);
   });
