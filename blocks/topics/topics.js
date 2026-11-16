@@ -17,7 +17,7 @@ import { itemRows } from '../../scripts/block-fields.js';
 /* O bloco não tem campos: todas as linhas são tópicos. */
 const FIELDS = [];
 
-/* Textos de PROD, fallback dos placeholders topics-step-1 a topics-step-4. */
+/* Textos de PROD, fallback dos placeholders topics-etapa-1 a topics-etapa-4. */
 const ETAPAS = [
   'Preencha o formulário de inscrição',
   'Análise do seu perfil',
@@ -106,7 +106,7 @@ export default async function decorate(block) {
   } else {
     const table = await fetchPlaceholders();
     ETAPAS.forEach((fallback, i) => list.append(topicItem({
-      index: i + 1, title: placeholder(table, `topics-step-${i + 1}`, fallback),
+      index: i + 1, title: placeholder(table, `topics-etapa-${i + 1}`, fallback),
     })));
     block.classList.add('topics-etapas');
   }

@@ -71,7 +71,7 @@ largura e posição contra o grid do portal) reproduz a referência medida em PR
 - **Model:** definição com título "Tópicos", id `topics`, `template.name` "Topics" (gera a
   classe `topics`, igual à pasta), filtro `topics`. Item com título "Tópico", model
   `topics-item`, resourceType de item de bloco. O bloco entra no filtro `section`.
-- **Textos das etapas:** placeholders `topics-step-1` a `topics-step-4`, lidos pelo módulo de
+- **Textos das etapas:** placeholders `topics-etapa-1` a `topics-etapa-4`, lidos pelo módulo de
   placeholders já existente, com os textos de PROD como fallback no bloco.
 - **Fluxo (layout):**
   - etapas: coluna abaixo de 1200px, linha a partir de 1200px (media query de janela, como o

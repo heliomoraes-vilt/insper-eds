@@ -5,10 +5,10 @@
   "data": [
     { "Key": "fixture-greeting", "Text": "Olá da tabela" },
     { "Key": "fixture-empty", "Text": "" },
-    { "Key": "topics-step-1", "Text": "Inscreva-se" },
-    { "Key": "topics-step-2", "Text": "Análise" },
-    { "Key": "topics-step-3", "Text": "Resultado" },
-    { "Key": "topics-step-4", "Text": "Matrícula" }
+    { "Key": "topics-etapa-1", "Text": "Inscreva-se" },
+    { "Key": "topics-etapa-2", "Text": "Análise" },
+    { "Key": "topics-etapa-3", "Text": "Resultado" },
+    { "Key": "topics-etapa-4", "Text": "Matrícula" }
   ],
   ":type": "sheet"
 }
