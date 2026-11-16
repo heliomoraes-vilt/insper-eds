@@ -286,3 +286,24 @@ test.describe('programa a 375px', () => {
     await expect(items.last().locator('.topics-connector')).toBeHidden();
   });
 });
+
+test.describe('markup do author (Universal Editor)', () => {
+  const instrumentado = (page) => page.locator('.topics').nth(3);
+
+  test('o bloco vazio do author (uma linha de célula vazia) mostra as etapas', async ({ page }) => {
+    await expect(etapas(page)).toHaveClass(/topics-etapas/);
+    await expect(etapas(page).locator('.topics-list > li')).toHaveCount(4);
+  });
+
+  test('o título e a descrição levam a instrumentação das células para o h3 e a descrição', async ({ page }) => {
+    const item = instrumentado(page).locator('.topics-list > li');
+    await expect(item).toHaveCount(1);
+    await expect(item).toHaveAttribute('data-aue-model', 'topics-item');
+    await expect(item.locator('h3')).toHaveAttribute('data-aue-prop', 'title');
+    await expect(item.locator('h3')).toHaveText('Decisões de capital de giro');
+    const description = item.locator('.topics-description');
+    await expect(description).toHaveAttribute('data-aue-prop', 'description');
+    await expect(description).toHaveAttribute('data-aue-type', 'richtext');
+    await expect(description.locator('[data-aue-prop]')).toHaveCount(0);
+  });
+});
