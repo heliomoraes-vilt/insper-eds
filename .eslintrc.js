@@ -14,6 +14,13 @@ module.exports = {
     sourceType: 'module',
     requireConfigFile: false,
   },
+  overrides: [
+    {
+      // Config do Playwright: roda só no Node, com devDependencies.
+      files: ['playwright.config.js'],
+      rules: { 'import/no-extraneous-dependencies': ['error', { devDependencies: true }] },
+    },
+  ],
   rules: {
     'import/extensions': ['error', { js: 'always' }], // require js file extensions in imports
     'linebreak-style': ['error', 'unix'], // enforce unix linebreaks

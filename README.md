@@ -46,12 +46,16 @@ entre cada um:
 | --- | --- | --- |
 | `share` | `shareComponent` | texto, tooltip, id |
 | `instagram-timeline` | `timelineInstagram` | endpoint dos posts, id |
+| `accordion` | `accordion` | título, título em vermelho, id + itens "Accordion — item" (título, texto) |
 
 O `instagram-timeline` não fala com a Meta: o token fica no AEM, e o bloco lê os posts de
 um servlet GET (`<endpoint>.pt.json` / `.en.json`), que ainda precisa ser criado no portal e
 roteado pelo CDN. Sem ele o bloco não aparece, como no original quando faltam posts.
 
-Preview local dos dois: `/test/eds-port.html`, com a fixture em `test/fixtures/`.
+O `accordion` usa `<details name>`: só um item aberto por vez, sem estado em JS. O richtext
+chega pelo pipeline do EDS, que remove `style` inline — formatação inline do portal não vem.
+
+Preview local dos portados: `/test/eds-port.html`, com a fixture em `test/fixtures/`.
 
 ### Duas regras do xwalk que moldaram o código
 
